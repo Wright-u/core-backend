@@ -1,0 +1,208 @@
+<mxfile host="65bd71144e">
+    <diagram id="HdP4cJS6WbB3cFjCkfV4" name="Page-1">
+        <mxGraphModel dx="1996" dy="1893" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="25" value="Internal System" style="swimlane;whiteSpace=wrap;html=1;fillColor=light-dark(#BBF47C,#BBF47C);fontColor=light-dark(#000000,#000000);" vertex="1" parent="1">
+                    <mxGeometry x="280" y="-120" width="1180" height="1090" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="TreeSitter" style="html=1;whiteSpace=wrap;" parent="25" vertex="1">
+                    <mxGeometry x="1040" y="480" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" style="edgeStyle=elbowEdgeStyle;html=1;elbow=vertical;dashed=1;" edge="1" parent="25" source="21" target="15">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Compares" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="26">
+                    <mxGeometry x="-0.3658" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="56" style="edgeStyle=elbowEdgeStyle;html=1;elbow=vertical;dashed=1;" edge="1" parent="25" source="21" target="54">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="59" value="Subscribes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="56">
+                    <mxGeometry x="0.1077" y="-1" relative="1" as="geometry">
+                        <mxPoint x="7" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="60" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="25" source="21" target="34">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="69" style="edgeStyle=orthogonalEdgeStyle;html=1;elbow=vertical;" edge="1" parent="25" source="21" target="66">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="71" value="Push status" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="69">
+                    <mxGeometry x="0.294" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" value="Judge" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="610" y="570" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="AstTranslation" style="html=1;whiteSpace=wrap;" parent="25" vertex="1">
+                    <mxGeometry x="840" y="660" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;elbow=vertical;" edge="1" parent="25" source="21" target="3">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="Translate" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="22">
+                    <mxGeometry x="-0.0471" y="-1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="4" value="Uses" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;elbow=horizontal;" parent="25" source="3" target="2" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="38" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="25" source="15" target="34">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="Entities" style="html=1;whiteSpace=wrap;" parent="25" vertex="1">
+                    <mxGeometry x="370" y="750" width="240" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;elbow=vertical;" parent="25" source="3" target="15" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="Parses To" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="17" vertex="1" connectable="0">
+                    <mxGeometry x="0.0982" y="-1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="39" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="25" source="14" target="34">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Editor" style="html=1;whiteSpace=wrap;" parent="25" vertex="1">
+                    <mxGeometry x="50" y="380" width="140" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;elbow=vertical;" parent="25" source="14" target="15" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="Edits" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" parent="16" vertex="1" connectable="0">
+                    <mxGeometry x="-0.3173" y="-1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="62" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="25" source="6" target="61">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="GrammerMapper" style="html=1;whiteSpace=wrap;" parent="25" vertex="1">
+                    <mxGeometry x="930" y="800" width="130" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Gets normalized map" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;elbow=horizontal;" parent="25" source="3" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="RelationalDbContext" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="20" y="990" width="620" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="41" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="25" source="73" target="14">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="49" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="25" source="73" target="47">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="51" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="25" source="73" target="50">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="40" value="Web Server" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="60" y="50" width="640" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="55" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="25" source="47" target="54">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="57" value="Publish" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="55">
+                    <mxGeometry x="-0.055" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="47" value="CodeIngestion" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="500" y="330" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="52" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;elbow=vertical;" edge="1" parent="25" source="50" target="47">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="50" value="GitHubIngestionAdapter" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="360" y="230" width="160" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="54" value="CodePool" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="500" y="440" width="250" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="61" value="DocumentDbContext" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="650" y="990" width="420" height="70" as="geometry"/>
+                </mxCell>
+                <mxCell id="66" value="Notifications" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="790" y="330" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="74" value="" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="25" source="40" target="73">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="395" as="sourcePoint"/>
+                        <mxPoint x="395" y="190" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="78" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="25" source="73" target="34">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="76" value="" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="25" source="40" target="73">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="660" as="sourcePoint"/>
+                        <mxPoint x="660" y="140" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="73" value="Auth" style="html=1;whiteSpace=wrap;" vertex="1" parent="25">
+                    <mxGeometry x="60" y="140" width="560" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="75" value="" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="25" source="40" target="73">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="835" as="sourcePoint"/>
+                        <mxPoint x="835" y="210" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="AI Service" style="html=1;whiteSpace=wrap;" vertex="1" parent="1">
+                    <mxGeometry x="1580" y="560" width="110" height="50" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" style="edgeStyle=elbowEdgeStyle;html=1;elbow=vertical;dashed=1;" edge="1" parent="1" source="3" target="28">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="Format semantic components" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="29">
+                    <mxGeometry x="0.4861" y="1" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="11" value="MongoDB" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" parent="1" vertex="1">
+                    <mxGeometry x="1080" y="1030" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Postgres" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;" vertex="1" parent="1">
+                    <mxGeometry x="372.5" y="1030" width="60" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="36" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="1" source="34" target="33">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="44" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="1" source="43" target="40">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="43" value="Client" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="-75" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="46" style="edgeStyle=elbowEdgeStyle;html=1;" edge="1" parent="1" source="45" target="40">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="45" value="GitHub" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+                    <mxGeometry x="785" y="-270" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="63" style="edgeStyle=elbowEdgeStyle;html=1;dashed=1;" edge="1" parent="1" source="61" target="11">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="64" value="Gmail" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+                    <mxGeometry x="1085" y="-270" width="80" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="68" style="edgeStyle=elbowEdgeStyle;html=1;elbow=vertical;" edge="1" parent="1" source="66" target="64">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="70" value="Push to user inbox" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="68">
+                    <mxGeometry x="-0.1133" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
