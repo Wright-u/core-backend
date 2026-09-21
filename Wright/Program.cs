@@ -13,8 +13,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
 var modules = typeof(Program).Assembly.GetTypes()
-	.Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-	.Select(t => (IModule)Activator.CreateInstance(t)!);
+    .Where(t => typeof(IModule).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+    .Select(t => (IModule)Activator.CreateInstance(t)!);
 
 foreach (var module in modules)
 {
@@ -24,11 +24,11 @@ foreach (var module in modules)
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
-	{
-		builder.AllowAnyOrigin()
-			   .AllowAnyMethod()
-			   .AllowAnyHeader();
-	});
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
 });
 
 builder.Services.AddEndpointsApiExplorer();
@@ -54,7 +54,7 @@ app.MapGet("/health", () =>
 
 foreach (var module in modules)
 {
-	module.Configure(app);
+    module.Configure(app);
 }
 
 app.MapControllers();
