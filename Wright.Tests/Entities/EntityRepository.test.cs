@@ -49,7 +49,8 @@ public class EntityRepositoryTest
     }
 
     [Fact]
-    public async Task AddFakeEntityWhenInheritsFromEntityThenAddParentEntity() {
+    public async Task AddFakeEntityWhenInheritsFromEntityThenAddParentEntity()
+    {
         var context = ReadyInMemoryDb.Get();
 
         var entity = new FakeEntity
@@ -113,19 +114,19 @@ public class EntityRepositoryTest
 
         Assert.Equal(entity.Name, (await context.Set<Entity>().FirstOrDefaultAsync(e => e.Id == entity.Id))?.Name);
     }
-    
+
     [Fact]
     public async Task UpdateEntityWhenNotExistsThenThrowException()
     {
         var context = ReadyInMemoryDb.Get();
 
         var entityRepository = new EntityRepository(context);
-        await Assert.ThrowsAsync<KeyNotFoundException>(() => 
+        await Assert.ThrowsAsync<KeyNotFoundException>(() =>
             entityRepository.Update(Guid.NewGuid(), new StubEntity
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Test Entity"
-                }
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test Entity"
+            }
             )
         );
     }
@@ -159,7 +160,7 @@ public class EntityRepositoryTest
             Name = "Test Entity",
             Attribute = "Test Attribute"
         };
-        
+
         await context.Set<FakeEntity>().AddAsync(entity);
         await context.SaveChangesAsync();
 

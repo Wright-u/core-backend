@@ -24,7 +24,7 @@ public class EntityTreeBuilderTest
     {
         var parentId = Guid.NewGuid();
         var result = EntityTreeBuilder.Build([
-            new StubEntity { Id = parentId, Name = "Test Entity"}, 
+            new StubEntity { Id = parentId, Name = "Test Entity"},
             new StubEntity { Id = Guid.NewGuid(), Name = "Test Entity", ParentId = parentId }
             ], parentId);
 

@@ -69,7 +69,7 @@ public class EntityRepository : IEntityRepository
     {
         var existing = await _set.FirstOrDefaultAsync(e => e.Id == id);
         if (existing is null) throw new KeyNotFoundException();
-        
+
         _set.Update(entity);
         await _context.SaveChangesAsync();
     }
