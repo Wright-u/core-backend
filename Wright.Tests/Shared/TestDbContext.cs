@@ -11,7 +11,7 @@ public class TestDbContext : AppDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(FakeEntityDbConfig).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(TestDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
 }

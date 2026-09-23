@@ -49,6 +49,23 @@ public class EntityRepositoryTest
     }
 
     [Fact]
+    public async Task AddFakeEntityWhenInheritsFromEntityThenAddParentEntity() {
+        var context = ReadyInMemoryDb.Get();
+
+        var entity = new FakeEntity
+        {
+            Id = Guid.NewGuid(),
+            Name = "Test Entity",
+            Attribute = "Test Attribute"
+        };
+
+        var entityRepository = new EntityRepository(context);
+        await entityRepository.Add(entity);
+
+        Assert.NotEmpty(await context.Set<Entity>().ToListAsync());
+    }
+
+    [Fact]
     public async Task DeleteEntityWhenExistsThenPass()
     {
         var context = ReadyInMemoryDb.Get();
@@ -129,6 +146,28 @@ public class EntityRepositoryTest
 
         var entityRepository = new EntityRepository(context);
         Assert.Equal(entity.Name, (await entityRepository.GetById(entity.Id))?.Name);
+    }
+
+    [Fact]
+    public async Task GetEntityByEntitySetThenCastToFakeEntity()
+    {
+        var context = ReadyInMemoryDb.Get();
+
+        var entity = new FakeEntity
+        {
+            Id = Guid.NewGuid(),
+            Name = "Test Entity",
+            Attribute = "Test Attribute"
+        };
+        
+        await context.Set<FakeEntity>().AddAsync(entity);
+        await context.SaveChangesAsync();
+
+        var entityRepository = new EntityRepository(context);
+        var getResult = await entityRepository.GetById(entity.Id);
+
+        Assert.NotNull(getResult);
+        Assert.Equal(entity.Attribute, ((FakeEntity)getResult)?.Attribute);
     }
 
     [Fact]
