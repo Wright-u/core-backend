@@ -1,5 +1,4 @@
 using Wright.Entities;
-using Wright.Tests.Shared;
 
 namespace Wright.Tests.Entities;
 

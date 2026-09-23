@@ -4,7 +4,7 @@ public static class EntityTreeBuilder
 {
     public static Entity Build(IEnumerable<Entity> entities, Guid rootId)
     {
-        if (entities.Count() == 0) throw new InvalidOperationException("Empty collection.");
+        if (!entities.Any()) throw new ArgumentNullException("Empty collection.");
 
         var all = entities.ToList();
         var byId = all.ToDictionary(x => x.Id);
