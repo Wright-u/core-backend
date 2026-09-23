@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Wright.Tests/Wright.Tests.csproj" />
   <Project Path="Wright/Wright.csproj" />
 </Solution>
