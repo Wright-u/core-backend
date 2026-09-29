@@ -34,6 +34,10 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 
+builder.Services.AddMcpServer()
+                .WithHttpTransport()
+                .WithToolsFromAssembly();
+
 builder.Services.AddHttpClient();
 
 var app = builder.Build();
@@ -58,5 +62,7 @@ foreach (var module in modules)
 }
 
 app.MapControllers();
+
+app.MapMcp("/api/mcp");
 
 app.Run();

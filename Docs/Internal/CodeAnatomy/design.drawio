@@ -1,24 +1,24 @@
 <mxfile host="65bd71144e">
     <diagram id="kxhUqV05D1mrCUfZjm4g" name="Page-1">
-        <mxGraphModel dx="1964" dy="994" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+        <mxGraphModel dx="1075" dy="1362" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
                 <mxCell id="_soKpDB75n0N7ArusGbT-20" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=light-dark(#BBF47C,#BBF47C);fontColor=light-dark(#000000,#000000);" value="System" vertex="1">
-                    <mxGeometry height="770" width="1150" x="20" y="20" as="geometry"/>
+                    <mxGeometry height="840" width="1150" x="30" y="-20" as="geometry"/>
                 </mxCell>
-                <mxCell id="_soKpDB75n0N7ArusGbT-14" parent="_soKpDB75n0N7ArusGbT-20" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;ICodeAnatomyService&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getAppSkeleton(source: string): string&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getInternals(source: string): string&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getImplementation(source: string): string&lt;/p&gt;" vertex="1">
+                <mxCell id="_soKpDB75n0N7ArusGbT-14" parent="_soKpDB75n0N7ArusGbT-20" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;ICodeAnatomyService&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getAppSkeleton(source: string): string&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getImplementation(source: string): string&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ getSymbolReferences(source: string): string&lt;/p&gt;" vertex="1">
                     <mxGeometry height="100" width="390" x="310" y="180" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-25" edge="1" parent="_soKpDB75n0N7ArusGbT-20" source="_soKpDB75n0N7ArusGbT-15" style="edgeStyle=orthogonalEdgeStyle;html=1;libavoidRouting=1;" target="_soKpDB75n0N7ArusGbT-10">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="155" y="408"/>
+                            <mxPoint x="505" y="385"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-15" parent="_soKpDB75n0N7ArusGbT-20" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="GitHubAnatomyService" vertex="1">
-                    <mxGeometry height="112" width="390" x="512.5" y="352" as="geometry"/>
+                    <mxGeometry height="112" width="390" x="590" y="329" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-16" parent="_soKpDB75n0N7ArusGbT-15" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- httpClient: HttpClient" vertex="1">
                     <mxGeometry height="26" width="390" y="26" as="geometry"/>
@@ -32,42 +32,32 @@
                 <mxCell id="_soKpDB75n0N7ArusGbT-18" parent="_soKpDB75n0N7ArusGbT-15" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ GitHubSkeletonService(httpClient: HttpClient, parser: ICodeParser)" vertex="1">
                     <mxGeometry height="26" width="390" y="86" as="geometry"/>
                 </mxCell>
-                <mxCell id="_soKpDB75n0N7ArusGbT-10" parent="_soKpDB75n0N7ArusGbT-20" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;ICodeParser&amp;lt;T&amp;gt;&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ parse(codeText: string): T&lt;/p&gt;" vertex="1">
-                    <mxGeometry height="140" width="190" x="60" y="549" as="geometry"/>
+                <mxCell id="_soKpDB75n0N7ArusGbT-10" parent="_soKpDB75n0N7ArusGbT-20" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;lt;&amp;lt;Interface&amp;gt;&amp;gt;&lt;/i&gt;&lt;br&gt;&lt;b&gt;ICodeParser&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ parse(codeText: string): Node&lt;/p&gt;" vertex="1">
+                    <mxGeometry height="140" width="190" x="410" y="500" as="geometry"/>
                 </mxCell>
-                <mxCell id="_soKpDB75n0N7ArusGbT-6" parent="_soKpDB75n0N7ArusGbT-20" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="TreeCodeParser" vertex="1">
-                    <mxGeometry height="34" width="160" x="455" y="515" as="geometry"/>
+                <mxCell id="_soKpDB75n0N7ArusGbT-6" parent="_soKpDB75n0N7ArusGbT-20" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=34;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="TreeCodeParser" vertex="1">
+                    <mxGeometry height="42" width="160" x="425" y="684" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-8" parent="_soKpDB75n0N7ArusGbT-6" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-                    <mxGeometry height="8" width="160" y="26" as="geometry"/>
+                    <mxGeometry height="8" width="160" y="34" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-1" parent="_soKpDB75n0N7ArusGbT-20" style="html=1;whiteSpace=wrap;" value="TreeSitter" vertex="1">
-                    <mxGeometry height="50" width="110" x="615" y="680" as="geometry"/>
+                    <mxGeometry height="50" width="110" x="540" y="760" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-19" edge="1" parent="_soKpDB75n0N7ArusGbT-20" source="_soKpDB75n0N7ArusGbT-15" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;libavoidRouting=1;" target="_soKpDB75n0N7ArusGbT-14">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="708" y="329"/>
-                            <mxPoint x="505" y="329"/>
+                            <mxPoint x="505" y="385"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-11" edge="1" parent="_soKpDB75n0N7ArusGbT-20" source="_soKpDB75n0N7ArusGbT-6" style="edgeStyle=orthogonalEdgeStyle;html=1;libavoidRouting=1;endArrow=block;endFill=0;dashed=1;" target="_soKpDB75n0N7ArusGbT-10">
-                    <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="535" y="619"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-                <mxCell id="_soKpDB75n0N7ArusGbT-13" connectable="0" parent="_soKpDB75n0N7ArusGbT-11" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&amp;lt;&amp;lt;bind&amp;gt;&amp;gt; &amp;lt;T -&amp;gt; Node&amp;gt;" vertex="1">
-                    <mxGeometry relative="1" x="-0.3537" y="3" as="geometry">
-                        <mxPoint as="offset"/>
-                    </mxGeometry>
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-12" edge="1" parent="_soKpDB75n0N7ArusGbT-20" source="_soKpDB75n0N7ArusGbT-6" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;libavoidRouting=1;" target="_soKpDB75n0N7ArusGbT-1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="670" y="532"/>
+                            <mxPoint x="505" y="785"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -78,32 +68,62 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="_soKpDB75n0N7ArusGbT-26" parent="_soKpDB75n0N7ArusGbT-20" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="CodeAnatomyMCP" vertex="1">
-                    <mxGeometry height="138" width="322.5" x="758" y="80" as="geometry"/>
+                <mxCell id="_soKpDB75n0N7ArusGbT-26" parent="_soKpDB75n0N7ArusGbT-20" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="&lt;div&gt;[McpServerToolType]&lt;/div&gt;CodeAnatomyTools" vertex="1">
+                    <mxGeometry height="152" width="322.5" x="758" y="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-27" parent="_soKpDB75n0N7ArusGbT-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- service: ICodeAnatomyService" vertex="1">
-                    <mxGeometry height="26" width="322.5" y="26" as="geometry"/>
+                    <mxGeometry height="26" width="322.5" y="40" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-28" parent="_soKpDB75n0N7ArusGbT-26" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
-                    <mxGeometry height="8" width="322.5" y="52" as="geometry"/>
+                    <mxGeometry height="8" width="322.5" y="66" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-29" parent="_soKpDB75n0N7ArusGbT-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="getAppSkeleton(url: string)" vertex="1">
-                    <mxGeometry height="26" width="322.5" y="60" as="geometry"/>
+                    <mxGeometry height="26" width="322.5" y="74" as="geometry"/>
                 </mxCell>
-                <mxCell id="_soKpDB75n0N7ArusGbT-31" parent="_soKpDB75n0N7ArusGbT-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="getInternals(url: string)" vertex="1">
-                    <mxGeometry height="26" width="322.5" y="86" as="geometry"/>
+                <mxCell id="_soKpDB75n0N7ArusGbT-31" parent="_soKpDB75n0N7ArusGbT-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="getImplementation(url: string)" vertex="1">
+                    <mxGeometry height="26" width="322.5" y="100" as="geometry"/>
                 </mxCell>
-                <mxCell id="_soKpDB75n0N7ArusGbT-32" parent="_soKpDB75n0N7ArusGbT-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="getImplementation(url: string)" vertex="1">
-                    <mxGeometry height="26" width="322.5" y="112" as="geometry"/>
+                <mxCell id="_soKpDB75n0N7ArusGbT-32" parent="_soKpDB75n0N7ArusGbT-26" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="getSymbolReferences(url: string)" vertex="1">
+                    <mxGeometry height="26" width="322.5" y="126" as="geometry"/>
+                </mxCell>
+                <mxCell id="XimGocl9hxiSiBUaUtyS-10" edge="1" parent="_soKpDB75n0N7ArusGbT-20" source="XimGocl9hxiSiBUaUtyS-6" style="edgeStyle=orthogonalEdgeStyle;html=1;libavoidRouting=1;endArrow=block;endFill=0;" target="_soKpDB75n0N7ArusGbT-14">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="505" y="385"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="XimGocl9hxiSiBUaUtyS-11" edge="1" parent="_soKpDB75n0N7ArusGbT-20" source="XimGocl9hxiSiBUaUtyS-6" style="edgeStyle=orthogonalEdgeStyle;html=1;libavoidRouting=1;" target="_soKpDB75n0N7ArusGbT-10">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="505" y="385"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="XimGocl9hxiSiBUaUtyS-6" parent="_soKpDB75n0N7ArusGbT-20" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="LocalCodeAnatomyService" vertex="1">
+                    <mxGeometry height="86" width="290" x="165" y="342" as="geometry"/>
+                </mxCell>
+                <mxCell id="XimGocl9hxiSiBUaUtyS-7" parent="XimGocl9hxiSiBUaUtyS-6" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="- parser: ICodeParser" vertex="1">
+                    <mxGeometry height="26" width="290" y="26" as="geometry"/>
+                </mxCell>
+                <mxCell id="XimGocl9hxiSiBUaUtyS-8" parent="XimGocl9hxiSiBUaUtyS-6" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" value="" vertex="1">
+                    <mxGeometry height="8" width="290" y="52" as="geometry"/>
+                </mxCell>
+                <mxCell id="XimGocl9hxiSiBUaUtyS-9" parent="XimGocl9hxiSiBUaUtyS-6" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ LocalCodeAnatomyService(parser: ICodeParser)" vertex="1">
+                    <mxGeometry height="26" width="290" y="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-21" parent="1" style="html=1;whiteSpace=wrap;" value="GitHub" vertex="1">
                     <mxGeometry height="50" width="110" x="1260" y="403" as="geometry"/>
                 </mxCell>
                 <mxCell id="_soKpDB75n0N7ArusGbT-22" edge="1" parent="1" source="_soKpDB75n0N7ArusGbT-15" style="edgeStyle=orthogonalEdgeStyle;html=1;libavoidRouting=1;" target="_soKpDB75n0N7ArusGbT-21">
-                    <mxGeometry relative="1" as="geometry"/>
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1315" y="365"/>
+                        </Array>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="BzaKIjRYoBqSEvU0IY_x-1" parent="1" style="html=1;whiteSpace=wrap;" value="GrammerMapper" vertex="1">
-                    <mxGeometry height="50" width="110" x="500" y="860" as="geometry"/>
+                    <mxGeometry height="50" width="110" x="480" y="860" as="geometry"/>
                 </mxCell>
                 <mxCell id="BzaKIjRYoBqSEvU0IY_x-2" edge="1" parent="1" source="_soKpDB75n0N7ArusGbT-6" style="edgeStyle=orthogonalEdgeStyle;html=1;libavoidRouting=1;dashed=1;" target="BzaKIjRYoBqSEvU0IY_x-1">
                     <mxGeometry relative="1" as="geometry"/>
