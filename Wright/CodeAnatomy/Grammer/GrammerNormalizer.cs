@@ -44,6 +44,8 @@ public abstract class GrammerNormalizer : IGrammerNormalizer
         return true;
     }
 
+    public virtual bool IsSymbolReference(Node node) => node.Type == "identifier";
+
     private static string? GetName(Node node)
     {
         Node? nameNode = node.GetChildForField("name");

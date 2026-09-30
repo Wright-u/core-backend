@@ -11,4 +11,6 @@ public interface IGrammerNormalizer
     string Language { get; }
 
     bool TryNormalize(Node node, out SignatureSkeleton? signature);
+
+    bool IsSymbolReference(Node node);
 }

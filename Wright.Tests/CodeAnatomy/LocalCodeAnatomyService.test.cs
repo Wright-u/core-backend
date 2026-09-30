@@ -124,6 +124,110 @@ public class LocalCodeAnatomyServiceTest
             signature => AssertSignature(signature, "ClearCache", "method", "private"));
     }
 
+    [Fact]
+    public async Task GetImplementationWhenMethodIsSpecifiedThenReturnsItsBodyStatements()
+    {
+        string appDirectory = CreateApplication("implementation-app");
+        CreateFile(appDirectory, "CustomerService.cs", """
+            public class CustomerService
+            {
+                public string GetCustomerName(int customerId)
+                {
+                    return "Ada";
+                }
+            }
+            """);
+
+        ImplementationResponse implementation = await CreateService()
+            .GetImplementation("implementation-app/CustomerService.cs/CustomerService/GetCustomerName");
+
+        Assert.Equal(["return \"Ada\";"], implementation.Body);
+    }
+
+    [Fact]
+    public async Task GetImplementationWhenMethodIsNestedThenUsesTheFullContainerPath()
+    {
+        string appDirectory = CreateApplication("nested-implementation-app");
+        CreateFile(appDirectory, "Container.cs", """
+            public class Container
+            {
+                private class Worker
+                {
+                    public void Run()
+                    {
+                        Process();
+                    }
+                }
+            }
+            """);
+
+        ImplementationResponse implementation = await CreateService()
+            .GetImplementation("nested-implementation-app/Container.cs/Container/Worker/Run");
+
+        Assert.Equal(["Process();"], implementation.Body);
+    }
+
+    [Fact]
+    public async Task GetSymbolReferencesWhenMethodIsUsedInAnotherFileThenReturnsTheReferencingSource()
+    {
+        string appDirectory = CreateApplication("references-app");
+        CreateFile(appDirectory, "CustomerService.cs", """
+            public class CustomerService
+            {
+                public string GetCustomerName(int customerId)
+                {
+                    return repository.Find(customerId);
+                }
+            }
+            """);
+        CreateFile(appDirectory, "CustomerController.cs", """
+            public class CustomerController
+            {
+                public string GetName(CustomerService service, int customerId)
+                {
+                    return service.GetCustomerName(customerId);
+                }
+            }
+            """);
+
+        SymbolReferencesResponse references = await CreateService()
+            .GetSymbolReferences("references-app/CustomerService.cs/CustomerService/GetCustomerName");
+
+        Assert.Equal(["references-app/CustomerController.cs"], references.References.Select(reference => reference.Source));
+    }
+
+    [Fact]
+    public async Task GetSymbolReferencesWhenNestedMethodIsUsedInAnotherFileThenReturnsTheReferencingSource()
+    {
+        string appDirectory = CreateApplication("nested-references-app");
+        CreateFile(appDirectory, "Container.cs", """
+            public class Container
+            {
+                public class Worker
+                {
+                    public void Run()
+                    {
+                        processor.Process(jobId);
+                    }
+                }
+            }
+            """);
+        CreateFile(appDirectory, "Runner.cs", """
+            public class Runner
+            {
+                public void Execute(Container.Worker worker)
+                {
+                    worker.Run();
+                }
+            }
+            """);
+
+        SymbolReferencesResponse references = await CreateService()
+            .GetSymbolReferences("nested-references-app/Container.cs/Container/Worker/Run");
+
+        Assert.Equal(["nested-references-app/Runner.cs"], references.References.Select(reference => reference.Source));
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(_testDirectory))
