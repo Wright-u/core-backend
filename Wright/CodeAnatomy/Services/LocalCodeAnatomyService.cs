@@ -12,7 +12,7 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
     private readonly IGrammerNormalizerFactory _grammerNormalizerFactory;
 
     public LocalCodeAnatomyService(
-        Uri root,
+        [FromKeyedServices("RepositoriesUri")] Uri root,
         ICodeParser codeParser,
         IGrammerNormalizerFactory grammerNormalizerFactory)
     {
