@@ -7,7 +7,7 @@ public class AppSkeletonResponse
 
 public class FileSkeleton
 {
-    public required string Name { get; set; }
+    public required string Path { get; set; }
     public List<SignatureSkeleton> Signatures { get; set; } = [];
 }
 
