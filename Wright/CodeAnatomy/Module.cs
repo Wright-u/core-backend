@@ -10,9 +10,11 @@ public class CodeAnatomyModule : IModule
 {
     public void Register(IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
-        services.AddKeyedScoped("RepositoriesUri", (_, _) => 
-            new Uri(Path.GetFullPath(Path.Combine("..", "Storage", "Repositories")))
-        );
+        string repositoriesPath = Path.GetFullPath(
+            Path.Combine(environment.ContentRootPath, "..", "Storage", "Repositories"));
+
+        services.AddKeyedScoped("RepositoriesUri", (_, _) =>
+            new Uri(repositoriesPath + Path.DirectorySeparatorChar));
         
         services.AddSingleton<ICodeParser, TreeCodeParser>();
         services.AddSingleton<IGrammerNormalizer, CSharpGrammerNormalizer>();

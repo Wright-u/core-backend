@@ -25,4 +25,16 @@ public class TreeCodeParserTest
         var tree = parser.Parse("package main", "Go");
         Assert.NotNull(tree);
     }
+
+    [Fact]
+    public void ParseWhenLanguageIsUnsupportedThenIncludeLanguageAndOriginalException()
+    {
+        TreeCodeParser parser = new();
+
+        InvalidOperationException exception = Assert.Throws<InvalidOperationException>(
+            () => parser.Parse("some code", "UnsupportedLanguage"));
+
+        Assert.Contains("UnsupportedLanguage", exception.Message);
+        Assert.NotNull(exception.InnerException);
+    }
 }

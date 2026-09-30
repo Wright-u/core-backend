@@ -9,9 +9,18 @@ public class TreeCodeParser : ICodeParser
     {
         if (string.IsNullOrEmpty(language) || string.IsNullOrEmpty(codeText)) throw new ArgumentNullException(nameof(language));
 
-        var grammer = new Language(language);
-        var parser = new Parser(grammer);
+        try
+        {
+            var grammer = new Language(language);
+            var parser = new Parser(grammer);
 
-        return parser.Parse(codeText) ?? throw new InvalidOperationException("Failed to parse code");
+            return parser.Parse(codeText) ?? throw new InvalidOperationException("Failed to parse code");
+        }
+        catch (Exception exception)
+        {
+            throw new InvalidOperationException(
+                $"Failed to parse code as '{language}': {exception.Message}",
+                exception);
+        }
     }
 }

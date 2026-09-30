@@ -5,9 +5,9 @@ message: |-
   {
     "method": "tools/call",
     "params": {
-      "name": "getAppSkeleton",
+      "name": "getImplementation",
       "arguments": {
-        "url": ""
+        "url": "prototype/AstTranslator.cs/JavaAstTranslator/Translate"
       }
     }
   }

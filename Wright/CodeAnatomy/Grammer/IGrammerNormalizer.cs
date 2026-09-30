@@ -12,5 +12,7 @@ public interface IGrammerNormalizer
 
     bool TryNormalize(Node node, out SignatureSkeleton? signature);
 
+    IEnumerable<Node> GetInternalNodes(Node node, SignatureSkeleton signature);
+
     bool IsSymbolReference(Node node);
 }

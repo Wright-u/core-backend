@@ -8,4 +8,6 @@ public class SymbolReferencesResponse
 public class SymbolReference
 {
     public required string Source { get; set; }
+    public required SignatureSkeleton Signature { get; set; }
+    public int LineNumber { get; set; }
 }

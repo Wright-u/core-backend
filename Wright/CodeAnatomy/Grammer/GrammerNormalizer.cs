@@ -35,6 +35,7 @@ public abstract class GrammerNormalizer : IGrammerNormalizer
         {
             Name = name,
             Type = type,
+            Datatype = GetDatatype(node),
             Modifiers = node.Children
                 .Select(child => child.Text)
                 .Where(ModifierKeywords.Contains)
@@ -44,7 +45,23 @@ public abstract class GrammerNormalizer : IGrammerNormalizer
         return true;
     }
 
+    public virtual IEnumerable<Node> GetInternalNodes(Node node, SignatureSkeleton signature) => node.NamedChildren;
+
     public virtual bool IsSymbolReference(Node node) => node.Type == "identifier";
+
+    protected virtual string GetDatatype(Node node)
+    {
+        foreach (string fieldName in new[] { "type", "returns", "return_type" })
+        {
+            Node? datatype = node.GetChildForField(fieldName);
+            if (datatype is not null)
+            {
+                return datatype.Text;
+            }
+        }
+
+        return string.Empty;
+    }
 
     private static string? GetName(Node node)
     {

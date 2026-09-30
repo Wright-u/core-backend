@@ -89,10 +89,10 @@ public class LocalCodeAnatomyServiceTest
 
         Assert.Collection(
             fileSkeleton.Signatures,
-            signature => AssertSignature(signature, "Customer", "class", "public"),
-            signature => AssertSignature(signature, "Address", "struct", "internal"),
-            signature => AssertSignature(signature, "ICustomerRepository", "interface", "public"),
-            signature => AssertSignature(signature, "CustomerStatus", "enum", "public"));
+            signature => AssertSignature(signature, "Customer", "class", "", "public"),
+            signature => AssertSignature(signature, "Address", "struct", "", "internal"),
+            signature => AssertSignature(signature, "ICustomerRepository", "interface", "", "public"),
+            signature => AssertSignature(signature, "CustomerStatus", "enum", "", "public"));
     }
 
     [Fact]
@@ -117,11 +117,55 @@ public class LocalCodeAnatomyServiceTest
         FileSkeleton fileSkeleton = Assert.Single(appSkeleton.Files);
         SignatureSkeleton classSignature = Assert.Single(fileSkeleton.Signatures);
 
-        AssertSignature(classSignature, "CustomerService", "class", "public");
+        AssertSignature(classSignature, "CustomerService", "class", "", "public");
         Assert.Collection(
-            classSignature.Contracts,
-            signature => AssertSignature(signature, "GetCustomerName", "method", "public"),
-            signature => AssertSignature(signature, "ClearCache", "method", "private"));
+            classSignature.Internals,
+            signature => AssertSignature(signature, "GetCustomerName", "method", "string", "public"),
+            signature => AssertSignature(signature, "ClearCache", "method", "void", "private"));
+    }
+
+    [Fact]
+    public async Task GetCodeSkeletonWhenFileContainsGlobalFunctionThenReturnsFunctionWithoutItsBody()
+    {
+        string appDirectory = CreateApplication("global-function-app");
+        CreateFile(appDirectory, "Program.cs", """
+            void PrintGreeting(string name)
+            {
+                Console.WriteLine(name);
+            }
+            """);
+
+        AppSkeletonResponse appSkeleton = await CreateService().GetCodeSkeleton("global-function-app");
+        FileSkeleton fileSkeleton = Assert.Single(appSkeleton.Files);
+        SignatureSkeleton function = Assert.Single(fileSkeleton.Signatures);
+
+        AssertSignature(function, "PrintGreeting", "function", "void");
+        SignatureSkeleton parameter = Assert.Single(function.Internals);
+        AssertSignature(parameter, "name", "parameter", "string");
+    }
+
+    [Fact]
+    public async Task GetCodeSkeletonWhenMethodHasParametersThenAddsParametersAsInternals()
+    {
+        string appDirectory = CreateApplication("parameter-app");
+        CreateFile(appDirectory, "Calculator.cs", """
+            public class Calculator
+            {
+                public decimal Add(int left, decimal right)
+                {
+                    return left + right;
+                }
+            }
+            """);
+
+        AppSkeletonResponse appSkeleton = await CreateService().GetCodeSkeleton("parameter-app");
+        SignatureSkeleton method = Assert.Single(Assert.Single(appSkeleton.Files).Signatures).Internals.Single();
+
+        AssertSignature(method, "Add", "method", "decimal", "public");
+        Assert.Collection(
+            method.Internals,
+            parameter => AssertSignature(parameter, "left", "parameter", "int"),
+            parameter => AssertSignature(parameter, "right", "parameter", "decimal"));
     }
 
     [Fact]
@@ -193,7 +237,10 @@ public class LocalCodeAnatomyServiceTest
         SymbolReferencesResponse references = await CreateService()
             .GetSymbolReferences("references-app/CustomerService.cs/CustomerService/GetCustomerName");
 
-        Assert.Equal(["references-app/CustomerController.cs"], references.References.Select(reference => reference.Source));
+        SymbolReference reference = Assert.Single(references.References);
+        Assert.Equal("references-app/CustomerController.cs", reference.Source);
+        Assert.Equal(5, reference.LineNumber);
+        AssertSignature(reference.Signature, "GetName", "method", "string", "public");
     }
 
     [Fact]
@@ -225,7 +272,10 @@ public class LocalCodeAnatomyServiceTest
         SymbolReferencesResponse references = await CreateService()
             .GetSymbolReferences("nested-references-app/Container.cs/Container/Worker/Run");
 
-        Assert.Equal(["nested-references-app/Runner.cs"], references.References.Select(reference => reference.Source));
+        SymbolReference reference = Assert.Single(references.References);
+        Assert.Equal("nested-references-app/Runner.cs", reference.Source);
+        Assert.Equal(5, reference.LineNumber);
+        AssertSignature(reference.Signature, "Execute", "method", "void", "public");
     }
 
     public void Dispose()
@@ -257,10 +307,12 @@ public class LocalCodeAnatomyServiceTest
         SignatureSkeleton signature,
         string expectedName,
         string expectedType,
+        string expectedDatatype = "",
         params string[] expectedModifiers)
     {
         Assert.Equal(expectedName, signature.Name);
         Assert.Equal(expectedType, signature.Type);
+        Assert.Equal(expectedDatatype, signature.Datatype);
         Assert.Equal(expectedModifiers, signature.Modifiers);
     }
 

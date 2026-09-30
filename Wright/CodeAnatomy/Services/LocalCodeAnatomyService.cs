@@ -30,12 +30,12 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
 
     public async Task<AppSkeletonResponse> GetCodeSkeleton(string source)
     {
-        Uri app = new(_root, source);
+        var app = Path.Combine(_root.LocalPath, source);
 
         // Read all files in the app directory
         AppSkeletonResponse response = new();
 
-        foreach (var file in Directory.EnumerateFiles(app.LocalPath, "*", SearchOption.AllDirectories))
+        foreach (var file in Directory.EnumerateFiles(app, "*", SearchOption.AllDirectories))
         {
             var fileSkeleton = new FileSkeleton {Path = Path.GetRelativePath(_root.LocalPath, file).Replace('\\', '/')};
             string language = LanguageDetector.InferLanguage(file);
@@ -63,14 +63,34 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
     {
         foreach (TreeSitter.Node child in node.NamedChildren)
         {
-            if (normalizer.TryNormalize(child, out SignatureSkeleton? signature) && signature is not null)
-            {
-                signatures.Add(signature);
-                AddSignatures(child, signature.Contracts, normalizer);
-                continue;
-            }
+            AddSignature(child, signatures, normalizer);
+        }
+    }
 
-            AddSignatures(child, signatures, normalizer);
+    private static void AddSignature(
+        TreeSitter.Node node,
+        List<SignatureSkeleton> signatures,
+        IGrammerNormalizer normalizer)
+    {
+        if (normalizer.TryNormalize(node, out SignatureSkeleton? signature) && signature is not null)
+        {
+            signatures.Add(signature);
+            AddSignatureInternals(node, signature, normalizer);
+
+            return;
+        }
+
+        AddSignatures(node, signatures, normalizer);
+    }
+
+    private static void AddSignatureInternals(
+        TreeSitter.Node node,
+        SignatureSkeleton signature,
+        IGrammerNormalizer normalizer)
+    {
+        foreach (TreeSitter.Node internalNode in normalizer.GetInternalNodes(node, signature))
+        {
+            AddSignature(internalNode, signature.Internals, normalizer);
         }
     }
 
@@ -108,14 +128,20 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
             }
 
             var tree = _codeParser.Parse(content, language);
-            bool hasReference = GetDescendants(tree.RootNode)
-                .Any(node => normalizer.IsSymbolReference(node) && node.Text == targetSymbol);
-
-            if (hasReference)
+            foreach (TreeSitter.Node referenceNode in GetDescendants(tree.RootNode)
+                .Where(node => normalizer.IsSymbolReference(node) && node.Text == targetSymbol))
             {
+                SignatureSkeleton? signature = GetEnclosingSignature(referenceNode, normalizer);
+                if (signature is null)
+                {
+                    continue;
+                }
+
                 references.Add(new SymbolReference
                 {
                     Source = Path.GetRelativePath(_root.LocalPath, file).Replace('\\', '/'),
+                    Signature = signature,
+                    LineNumber = referenceNode.StartPosition.Row + 1,
                 });
             }
         }
@@ -205,6 +231,22 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
             if (declarationInDescendant is not null)
             {
                 return declarationInDescendant;
+            }
+        }
+
+        return null;
+    }
+
+    private static SignatureSkeleton? GetEnclosingSignature(
+        TreeSitter.Node node,
+        IGrammerNormalizer normalizer)
+    {
+        for (TreeSitter.Node? current = node.Parent; current is not null; current = current.Parent)
+        {
+            if (normalizer.TryNormalize(current, out SignatureSkeleton? signature) && signature is not null)
+            {
+                AddSignatureInternals(current, signature, normalizer);
+                return signature;
             }
         }
 

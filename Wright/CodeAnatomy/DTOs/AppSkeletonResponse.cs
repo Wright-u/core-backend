@@ -15,6 +15,7 @@ public class SignatureSkeleton
 {
     public required string Name { get; set; }
     public required string Type { get; set; }
+    public required string Datatype { get; set; }
     public List<string> Modifiers { get; set; } = [];
-    public List<SignatureSkeleton> Contracts { get; set; } = [];
+    public List<SignatureSkeleton> Internals { get; set; } = [];
 }

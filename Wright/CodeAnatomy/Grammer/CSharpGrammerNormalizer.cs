@@ -1,3 +1,6 @@
+using TreeSitter;
+using Wright.CodeAnatomy.DTOs;
+
 namespace Wright.CodeAnatomy.Grammer;
 
 /// <summary>
@@ -27,9 +30,43 @@ public sealed class CSharpGrammerNormalizer : GrammerNormalizer
             ["operator_declaration"] = "operator",
             ["conversion_operator_declaration"] = "conversion_operator",
             ["enum_member_declaration"] = "enum_member",
+            ["local_function_statement"] = "function",
+            ["parameter"] = "parameter",
         };
 
     public override string Language => "C#";
 
     protected override IReadOnlyDictionary<string, string> NodeTypes => CSharpNodeTypes;
+
+    public override IEnumerable<Node> GetInternalNodes(Node node, SignatureSkeleton signature)
+    {
+        if (signature.Type is not ("method" or "function" or "constructor" or "destructor"))
+        {
+            return base.GetInternalNodes(node, signature);
+        }
+
+        Node? parameters = node.GetChildForField("parameters")
+            ?? node.NamedChildren.FirstOrDefault(child => child.Type == "parameter_list");
+
+        return parameters?.NamedChildren.Where(child => child.Type == "parameter") ?? [];
+    }
+
+    protected override string GetDatatype(Node node)
+    {
+        string datatype = base.GetDatatype(node);
+        if (!string.IsNullOrWhiteSpace(datatype))
+        {
+            return datatype;
+        }
+
+        if (node.Type is not ("method_declaration" or "local_function_statement" or "parameter"))
+        {
+            return string.Empty;
+        }
+
+        Node? datatypeNode = node.NamedChildren.FirstOrDefault(child =>
+            child.Type is "predefined_type" or "identifier" or "generic_name" or "array_type" or "nullable_type");
+
+        return datatypeNode?.Text ?? string.Empty;
+    }
 }
