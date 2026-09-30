@@ -4,7 +4,7 @@ namespace Wright.CodeAnatomy.interfaces;
 
 public interface ICodeAnatomyService
 {
-    public AppSkeletonResponse GetCodeSkeleton(Uri source);
-    public ImplementationResponse GetImplementation(Uri source);
-    public SymbolReferencesResponse GetSymbolReferences(Uri source);
+    public Task<AppSkeletonResponse> GetCodeSkeleton(Uri source);
+    public Task<ImplementationResponse> GetImplementation(Uri source);
+    public Task<SymbolReferencesResponse> GetSymbolReferences(Uri source);
 }

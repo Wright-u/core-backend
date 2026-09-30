@@ -4,5 +4,5 @@ namespace Wright.CodeAnatomy.interfaces;
 
 public interface ICodeParser
 {
-    public Node Parse(string codeText);
+    public Tree Parse(string codeText, string language);
 }
