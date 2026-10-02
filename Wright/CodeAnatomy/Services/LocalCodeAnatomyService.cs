@@ -46,7 +46,7 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
                 if (!string.IsNullOrWhiteSpace(content))
                 {
                     var tree = _codeParser.Parse(content, language);
-                    AddSignatures(tree.RootNode, fileSkeleton.Signatures, normalizer);
+                    AddSignatures(tree.RootNode, fileSkeleton.Signatures, normalizer, []);
                 }
             }
 
@@ -59,38 +59,46 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
     private static void AddSignatures(
         TreeSitter.Node node,
         List<SignatureSkeleton> signatures,
-        IGrammerNormalizer normalizer)
+        IGrammerNormalizer normalizer,
+        IReadOnlyList<string> containingSymbolPath)
     {
         foreach (TreeSitter.Node child in node.NamedChildren)
         {
-            AddSignature(child, signatures, normalizer);
+            AddSignature(child, signatures, normalizer, containingSymbolPath);
         }
     }
 
     private static void AddSignature(
         TreeSitter.Node node,
         List<SignatureSkeleton> signatures,
-        IGrammerNormalizer normalizer)
+        IGrammerNormalizer normalizer,
+        IReadOnlyList<string> containingSymbolPath)
     {
         if (normalizer.TryNormalize(node, out SignatureSkeleton? signature) && signature is not null)
         {
+            List<string> symbolPath = signature.Type == "namespace"
+                ? [.. containingSymbolPath]
+                : [.. containingSymbolPath, signature.Name];
+            signature.SymbolPath = symbolPath;
+            signature.CanReadCode = signature.Type is "method" or "function" or "constructor" or "destructor";
             signatures.Add(signature);
-            AddSignatureInternals(node, signature, normalizer);
+            AddSignatureInternals(node, signature, normalizer, symbolPath);
 
             return;
         }
 
-        AddSignatures(node, signatures, normalizer);
+        AddSignatures(node, signatures, normalizer, containingSymbolPath);
     }
 
     private static void AddSignatureInternals(
         TreeSitter.Node node,
         SignatureSkeleton signature,
-        IGrammerNormalizer normalizer)
+        IGrammerNormalizer normalizer,
+        IReadOnlyList<string> symbolPath)
     {
         foreach (TreeSitter.Node internalNode in normalizer.GetInternalNodes(node, signature))
         {
-            AddSignature(internalNode, signature.Internals, normalizer);
+            AddSignature(internalNode, signature.Internals, normalizer, symbolPath);
         }
     }
 
@@ -245,7 +253,7 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
         {
             if (normalizer.TryNormalize(current, out SignatureSkeleton? signature) && signature is not null)
             {
-                AddSignatureInternals(current, signature, normalizer);
+                AddSignatureInternals(current, signature, normalizer, signature.SymbolPath);
                 return signature;
             }
         }

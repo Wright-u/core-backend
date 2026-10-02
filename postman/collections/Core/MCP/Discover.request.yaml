@@ -5,9 +5,9 @@ message: |-
   {
     "method": "tools/call",
     "params": {
-      "name": "getImplementation",
+      "name": "getApplicationStructure",
       "arguments": {
-        "url": "prototype/AstTranslator.cs/JavaAstTranslator/Translate"
+        "appName": ""
       }
     }
   }

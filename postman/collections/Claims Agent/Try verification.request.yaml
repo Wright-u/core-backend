@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{CLAIMS_AGENT_URL}}/api/verify"
+method: POST
+headers:
+  Authorization: Bearer key
+body:
+  type: json
+  content: "{\r
+
+    \    \"appName\": \"prototype\",\r
+
+    \    \"narrative\": \"Ast translators are extensibles\"\r
+
+    }"
+order: 1790953269933
