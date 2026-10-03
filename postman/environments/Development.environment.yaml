@@ -1,0 +1,6 @@
+name: Development
+values:
+  - key: SERVER_URL
+    value: ''
+  - key: CLAIMS_AGENT_URL
+    value: ''

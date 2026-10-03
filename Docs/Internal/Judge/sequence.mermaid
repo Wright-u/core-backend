@@ -1,0 +1,13 @@
+sequenceDiagram
+    actor User
+
+    User ->>+ API: /api/judge body: design schema in json
+    API ->>+ JudgeService: judge(req)
+    JudgeService ->>+ EntityRequestParser: parse(req.body)
+    EntityRequestParser ->>- JudgeService: List<Entity>
+    JudgeService ->>+ EntityTreeBuilder: build(entities)
+    EntityTreeBuilder ->>+ JudgeService: List<Entity>
+    JudgeService ->>+ AstTranslationService: fetch(app)
+    AstTranslationService ->>- JudgeService: List<Entity>
+    JudgeService ->>- API: return violations
+    API ->>- User: response

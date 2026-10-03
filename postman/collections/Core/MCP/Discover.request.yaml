@@ -1,0 +1,16 @@
+$kind: mcp-request
+transport: sse
+url: "{{SERVER_URL}}/api/mcp"
+message: |-
+  {
+    "method": "tools/call",
+    "params": {
+      "name": "getApplicationStructure",
+      "arguments": {
+        "appName": ""
+      }
+    }
+  }
+settings:
+  version: auto
+order: 1790751277296
