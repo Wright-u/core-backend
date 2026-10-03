@@ -15,10 +15,10 @@ public class FunctionEntity : Entity
         {
             var parameter = Parameters[i];
             var otherParameter = entity.Parameters[i];
-            if (parameter.Name != otherParameter.Name) 
+            if (parameter.Name != otherParameter.Name)
                 mismatches.Add($"Parameter {i} name mismatch");
-                
-            if (parameter.Type != otherParameter.Type) 
+
+            if (parameter.Type != otherParameter.Type)
                 mismatches.Add($"Parameter {i} type mismatch");
         }
 
