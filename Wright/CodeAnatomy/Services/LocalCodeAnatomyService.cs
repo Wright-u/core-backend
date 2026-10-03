@@ -37,7 +37,7 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
 
         foreach (var file in Directory.EnumerateFiles(app, "*", SearchOption.AllDirectories))
         {
-            var fileSkeleton = new FileSkeleton {Path = Path.GetRelativePath(_root.LocalPath, file).Replace('\\', '/')};
+            var fileSkeleton = new FileSkeleton { Path = Path.GetRelativePath(_root.LocalPath, file).Replace('\\', '/') };
             string language = LanguageDetector.InferLanguage(file);
             IGrammerNormalizer? normalizer = _grammerNormalizerFactory.Get(language);
             if (normalizer is not null)

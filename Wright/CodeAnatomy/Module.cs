@@ -15,7 +15,7 @@ public class CodeAnatomyModule : IModule
 
         services.AddKeyedScoped("RepositoriesUri", (_, _) =>
             new Uri(repositoriesPath + Path.DirectorySeparatorChar));
-        
+
         services.AddSingleton<ICodeParser, TreeCodeParser>();
         services.AddSingleton<IGrammerNormalizer, CSharpGrammerNormalizer>();
         services.AddSingleton<IGrammerNormalizerFactory, GrammerNormalizerFactory>();
