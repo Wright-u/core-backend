@@ -9,7 +9,7 @@ body:
 
     \    \"appName\": \"prototype\",\r
 
-    \    \"narrative\": \"Ast translators are extensibles\"\r
+    \    \"narrative\": \"This app does implements java ast translator\"\r
 
     }"
 order: 1790953269933
