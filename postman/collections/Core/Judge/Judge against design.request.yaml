@@ -1,0 +1,63 @@
+$kind: http-request
+url: "{{SERVER_URL}}/api/judge"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \  \"appId\": \"sample\",\r
+
+    \  \"designSchema\": {\r
+
+    \    \"elements\": [\r
+
+    \      {\r
+
+    \        \"id\": \"4d7a1ef3-d0a8-4a8b-b9ed-81922714ffeb\",\r
+
+    \        \"name\": \"add\",\r
+
+    \        \"type\": \"function\",\r
+
+    \        \"properties\": [\r
+
+    \          {\r
+
+    \            \"name\": \"a\",\r
+
+    \            \"type\": \"int\"\r
+
+    \          },\r
+
+    \          {\r
+
+    \            \"name\": \"b\",\r
+
+    \            \"type\": \"int\"\r
+
+    \          }\r
+
+    \        ]\r
+
+    \      },\r
+
+    \      {\r
+
+    \        \"id\": \"da71e165-cc57-4e3e-af78-b56816ad09bf\",\r
+
+    \        \"name\": \"main\",\r
+
+    \        \"type\": \"function\",\r
+
+    \        \"properties\": []\r
+
+    \      }\r
+
+    \    ],\r
+
+    \    \"relationships\": []\r
+
+    \  }\r
+
+    }"
+order: 1791127096663

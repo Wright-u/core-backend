@@ -8,5 +8,6 @@ public class JudgeModule : IModule
     public void Register(IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services.AddScoped<IJudgeService, JudgeService>();
+        services.AddScoped<EntityRequestParser>();
     }
 }

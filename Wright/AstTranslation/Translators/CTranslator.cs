@@ -89,7 +89,7 @@ public class CTranslator : IAstTranslator
 
         return new RelationEntity
         {
-            Name = target.Name,
+            Name = $"{source.Name}->{target.Name}",
             Type = RelationTypes.Uses,
             Source = source,
             SourceId = source.Id,

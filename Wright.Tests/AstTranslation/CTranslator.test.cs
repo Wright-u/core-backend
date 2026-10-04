@@ -61,8 +61,8 @@ public class CTranslatorTest
 
         Assert.Collection(
             relations,
-            relation => Assert.Equal("first", relation.Name),
-            relation => Assert.Equal("second", relation.Name));
+            relation => Assert.Equal("caller->first", relation.Name),
+            relation => Assert.Equal("caller->second", relation.Name));
         Assert.All(relations, relation =>
         {
             Assert.Equal(RelationTypes.Uses, relation.Type);
@@ -71,7 +71,7 @@ public class CTranslatorTest
             Assert.Same(function, relation.Parent);
             Assert.Equal(function.Id, relation.ParentId);
             Assert.NotNull(relation.Target);
-            Assert.Equal(relation.Name, relation.Target.Name);
+            Assert.Equal($"{function.Name}->{relation.Target.Name}", relation.Name);
             Assert.Equal(relation.Target.Id, relation.TargetId);
         });
     }
