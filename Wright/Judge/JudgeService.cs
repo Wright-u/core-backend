@@ -12,7 +12,7 @@ public class JudgeService : IJudgeService
 
     public JudgeService(
         ICodeAnatomyService codeTranslator,
-        EntityRequestParser requestParser 
+        EntityRequestParser requestParser
         )
     {
         _codeAnatomyService = codeTranslator;

@@ -55,7 +55,19 @@ body:
 
     \    ],\r
 
-    \    \"relationships\": []\r
+    \    \"relationships\": [\r
+
+    \      {\r
+
+    \        \"sourceId\": \"da71e165-cc57-4e3e-af78-b56816ad09bf\",\r
+
+    \        \"targetId\": \"4d7a1ef3-d0a8-4a8b-b9ed-81922714ffeb\",\r
+
+    \        \"type\": \"uses\"\r
+
+    \      }\r
+
+    \    ]\r
 
     \  }\r
 
