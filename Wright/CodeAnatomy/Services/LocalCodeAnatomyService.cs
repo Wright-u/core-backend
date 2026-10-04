@@ -4,8 +4,6 @@ using Wright.CodeAnatomy.interfaces;
 using Wright.CodeAnatomy.Utils;
 using Wright.AstTranslation.Interfaces;
 using Wright.Entities;
-using Wright.Entities.Features.Function;
-using Wright.Entities.Features.Relation;
 
 namespace Wright.CodeAnatomy.Services;
 
@@ -340,7 +338,6 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
             }
         }
 
-        ResolveRelationTargets(entities);
         return BuildEntityForest(entities);
     }
 
@@ -374,20 +371,4 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
         }
     }
 
-    private static void ResolveRelationTargets(IEnumerable<Entity> entities)
-    {
-        List<FunctionEntity> functions = entities.OfType<FunctionEntity>().ToList();
-
-        foreach (RelationEntity relation in entities.OfType<RelationEntity>())
-        {
-            FunctionEntity? target = functions.FirstOrDefault(function =>
-                string.Equals(function.Name, relation.Target?.Name, StringComparison.Ordinal));
-
-            if (target is not null)
-            {
-                relation.Target = target;
-                relation.TargetId = target.Id;
-            }
-        }
-    }
 }
