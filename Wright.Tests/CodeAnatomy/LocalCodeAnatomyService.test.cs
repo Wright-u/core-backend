@@ -2,6 +2,9 @@ using Wright.CodeAnatomy.DTOs;
 using Wright.CodeAnatomy.Grammer;
 using Wright.CodeAnatomy.Services;
 using Wright.CodeAnatomy.Utils;
+using Wright.AstTranslation.Services;
+using Wright.Entities.Features.Function;
+using Wright.Entities.Features.Relation;
 
 namespace Wright.Tests.CodeAnatomy;
 
@@ -278,6 +281,34 @@ public class LocalCodeAnatomyServiceTest
         AssertSignature(reference.Signature, "Execute", "method", "void", "public");
     }
 
+    [Fact]
+    public async Task ParseCodeToEntitiesWhenCFunctionsCallEachOtherThenReturnsNestedUsesRelation()
+    {
+        string appDirectory = CreateApplication("c-entities-app");
+        CreateFile(appDirectory, "main.c", """
+            void callee(void)
+            {
+            }
+
+            void caller(void)
+            {
+                callee();
+            }
+            """);
+        CreateFile(appDirectory, "README.md", "This file is not source code.");
+
+        List<Wright.Entities.Entity> entities = await CreateService().ParseCodeToEntities("c-entities-app");
+
+        Assert.Equal(["callee", "caller"], entities.OfType<FunctionEntity>().Select(function => function.Name).Order());
+        FunctionEntity caller = Assert.Single(entities.OfType<FunctionEntity>(), function => function.Name == "caller");
+        RelationEntity relation = Assert.IsType<RelationEntity>(Assert.Single(caller.Children));
+        Assert.Equal(RelationTypes.Uses, relation.Type);
+        Assert.Equal("caller", relation.Source?.Name);
+        Assert.Equal("callee", relation.Target?.Name);
+        Assert.Contains(entities.OfType<FunctionEntity>(), function => function.Id == relation.TargetId);
+        Assert.Same(caller, relation.Parent);
+    }
+
     public void Dispose()
     {
         if (Directory.Exists(_testDirectory))
@@ -289,7 +320,8 @@ public class LocalCodeAnatomyServiceTest
     private LocalCodeAnatomyService CreateService() => new(
         CreateRootUri(),
         new TreeCodeParser(),
-        new GrammerNormalizerFactory([new CSharpGrammerNormalizer()]));
+        new GrammerNormalizerFactory([new CSharpGrammerNormalizer()]),
+        new LanguageAstTranslatorFactory());
 
     private string CreateApplication(string appName) =>
         Directory.CreateDirectory(Path.Combine(_testDirectory, appName)).FullName;

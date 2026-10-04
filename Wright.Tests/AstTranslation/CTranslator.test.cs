@@ -75,4 +75,29 @@ public class CTranslatorTest
             Assert.Equal(relation.Target.Id, relation.TargetId);
         });
     }
+
+    [Fact]
+    public void TranslateWhenCalledFunctionWasAlreadyTranslatedThenRelationTargetsThatFunction()
+    {
+        var tree = new TreeCodeParser().Parse("""
+            void callee(void)
+            {
+            }
+
+            void caller(void)
+            {
+                callee();
+            }
+            """, "C");
+        var translator = new CTranslator();
+        FunctionEntity callee = Assert.IsType<FunctionEntity>(
+            translator.Translate(tree.RootNode.NamedChildren[0]));
+        FunctionEntity caller = Assert.IsType<FunctionEntity>(
+            translator.Translate(tree.RootNode.NamedChildren[1]));
+
+        RelationEntity relation = Assert.IsType<RelationEntity>(Assert.Single(caller.Children));
+
+        Assert.Same(callee, relation.Target);
+        Assert.Equal(callee.Id, relation.TargetId);
+    }
 }

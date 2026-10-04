@@ -2,6 +2,8 @@ using Wright.CodeAnatomy.DTOs;
 using Wright.CodeAnatomy.Grammer;
 using Wright.CodeAnatomy.interfaces;
 using Wright.CodeAnatomy.Utils;
+using Wright.AstTranslation.Interfaces;
+using Wright.Entities;
 
 namespace Wright.CodeAnatomy.Services;
 
@@ -10,11 +12,13 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
     private readonly Uri _root;
     private readonly ICodeParser _codeParser;
     private readonly IGrammerNormalizerFactory _grammerNormalizerFactory;
+    private readonly IAstTranslatorFactory _astTranslatorFactory;
 
     public LocalCodeAnatomyService(
         [FromKeyedServices("RepositoriesUri")] Uri root,
         ICodeParser codeParser,
-        IGrammerNormalizerFactory grammerNormalizerFactory)
+        IGrammerNormalizerFactory grammerNormalizerFactory,
+        IAstTranslatorFactory astTranslatorFactory)
     {
         ArgumentNullException.ThrowIfNull(root);
 
@@ -26,6 +30,7 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
         _root = root;
         _codeParser = codeParser ?? throw new ArgumentNullException(nameof(codeParser));
         _grammerNormalizerFactory = grammerNormalizerFactory ?? throw new ArgumentNullException(nameof(grammerNormalizerFactory));
+        _astTranslatorFactory = astTranslatorFactory ?? throw new ArgumentNullException(nameof(astTranslatorFactory));
     }
 
     public async Task<AppSkeletonResponse> GetCodeSkeleton(string source)
@@ -290,6 +295,79 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
             {
                 yield return descendant;
             }
+        }
+    }
+
+    public async Task<List<Entity>> ParseCodeToEntities(string source)
+    {
+        var app = Path.Combine(_root.LocalPath, source);
+        List<Entity> entities = [];
+
+        foreach (string file in Directory.EnumerateFiles(app, "*", SearchOption.AllDirectories))
+        {
+            string language = LanguageDetector.InferLanguage(file);
+            IAstTranslator translator;
+
+            try
+            {
+                translator = _astTranslatorFactory.Create(language);
+            }
+            catch (NotSupportedException)
+            {
+                continue;
+            }
+
+            string content = await File.ReadAllTextAsync(file);
+            if (string.IsNullOrWhiteSpace(content))
+            {
+                continue;
+            }
+
+            TreeSitter.Tree tree = _codeParser.Parse(content, language);
+            foreach (TreeSitter.Node node in tree.RootNode.NamedChildren)
+            {
+                try
+                {
+                    Entity entity = translator.Translate(node);
+                    AddEntityTree(entity, entities);
+                }
+                catch (NotSupportedException)
+                {
+                    // The translator does not model every syntax node in a supported file.
+                }
+            }
+        }
+
+        return BuildEntityForest(entities);
+    }
+
+    private static List<Entity> BuildEntityForest(List<Entity> entities)
+    {
+        if (entities.Count == 0)
+        {
+            return [];
+        }
+
+        List<Entity> roots = entities.Where(entity => entity.ParentId is null).ToList();
+        if (roots.Count == 0)
+        {
+            throw new InvalidOperationException("The translated entities do not contain a root entity.");
+        }
+
+        // Build processes the entire collection, including every root, in one pass.
+        _ = EntityTreeBuilder.Build(entities, roots[0].Id);
+        return roots;
+    }
+
+    private static void AddEntityTree(Entity entity, List<Entity> entities)
+    {
+        entities.Add(entity);
+
+        foreach (Entity child in entity.Children)
+        {
+            child.Parent = entity;
+            child.ParentId = entity.Id;
+            AddEntityTree(child, entities);
         }
     }
 

@@ -8,6 +8,9 @@ namespace Wright.AstTranslation.Translators;
 
 public class CTranslator : IAstTranslator
 {
+    private readonly Dictionary<string, FunctionEntity> _translatedFunctions =
+        new(StringComparer.Ordinal);
+
     public Entity Translate(Node tree)
     {
         ArgumentNullException.ThrowIfNull(tree);
@@ -21,9 +24,10 @@ public class CTranslator : IAstTranslator
         };
     }
 
-    private static FunctionEntity TranslateFunction(Node node)
+    private FunctionEntity TranslateFunction(Node node)
     {
         FunctionEntity function = TranslateFunctionWithoutRelations(node);
+        _translatedFunctions[function.Name] = function;
 
         foreach (string calledFunction in GetCalledFunctions(node))
         {
@@ -34,7 +38,7 @@ public class CTranslator : IAstTranslator
         return function;
     }
 
-    private static RelationEntity TranslateCall(Node node)
+    private RelationEntity TranslateCall(Node node)
     {
         string? calledFunction = GetCalledFunctionName(node);
         Node? containingFunction = GetContainingFunction(node);
@@ -45,7 +49,15 @@ public class CTranslator : IAstTranslator
                 "A C function call must have a named callee and be declared inside a function.");
         }
 
-        return CreateUsesRelation(TranslateFunctionWithoutRelations(containingFunction), calledFunction);
+        return CreateUsesRelation(GetTranslatedFunction(containingFunction), calledFunction);
+    }
+
+    private FunctionEntity GetTranslatedFunction(Node node)
+    {
+        FunctionEntity function = TranslateFunctionWithoutRelations(node);
+        return _translatedFunctions.TryGetValue(function.Name, out FunctionEntity? translatedFunction)
+            ? translatedFunction
+            : _translatedFunctions[function.Name] = function;
     }
 
     private static FunctionEntity TranslateFunctionWithoutRelations(Node node)
@@ -71,11 +83,9 @@ public class CTranslator : IAstTranslator
         };
     }
 
-    private static RelationEntity CreateUsesRelation(FunctionEntity source, string targetName)
+    private RelationEntity CreateUsesRelation(FunctionEntity source, string targetName)
     {
-        FunctionEntity target = string.Equals(source.Name, targetName, StringComparison.Ordinal)
-            ? source
-            : new FunctionEntity { Name = targetName };
+        FunctionEntity target = GetRelationTarget(source, targetName);
 
         return new RelationEntity
         {
@@ -88,6 +98,19 @@ public class CTranslator : IAstTranslator
             Parent = source,
             ParentId = source.Id,
         };
+    }
+
+    private FunctionEntity GetRelationTarget(FunctionEntity source, string targetName)
+    {
+        if (string.Equals(source.Name, targetName, StringComparison.Ordinal))
+        {
+            return source;
+        }
+
+        // A target not seen in this file is represented by a name-only substitute.
+        return _translatedFunctions.TryGetValue(targetName, out FunctionEntity? target)
+            ? target
+            : new FunctionEntity { Name = targetName };
     }
 
     private static IEnumerable<string> GetCalledFunctions(Node function) =>

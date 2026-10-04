@@ -1,3 +1,4 @@
+using Wright.CodeAnatomy.interfaces;
 using Wright.Entities;
 using Wright.Judge.DTOs;
 using Wright.Judge.Interfaces;
@@ -7,20 +8,22 @@ namespace Wright.Judge;
 public class JudgeService : IJudgeService
 {
     // private readonly IDesignParser _designParser;
-    // private readonly ICodeTranslator _codeTranslator;
+    private readonly ICodeAnatomyService _codeAnatomyService;
 
-    // public JudgeService(IDesignParser designParser, ICodeTranslator codeTranslator)
-    // {
-    //     _designParser = designParser;
-    //     _codeTranslator = codeTranslator;
-    // }
-    public JudgeService() { }
+    public JudgeService(
+        ICodeAnatomyService codeTranslator
+        // IDesignParser designParser, 
+        )
+    {
+        _codeAnatomyService = codeTranslator;
+        // _designParser = designParser;
+    }
 
     public async Task<JudgeResponse> Judge(JudgeRequest request)
     {
 
         Entity? expected = null; // Entity expected = _designParser.Parse(request);
-        Entity? actual = null;   // Entity actual = await _codeTranslator.Translate(request.AppId);
+        Entity actual = (await _codeAnatomyService.ParseCodeToEntities(request.AppId)).First();
 
         if (expected is null || actual is null)
         {
