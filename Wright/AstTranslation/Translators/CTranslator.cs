@@ -2,6 +2,7 @@ using TreeSitter;
 using Wright.AstTranslation.Interfaces;
 using Wright.Entities;
 using Wright.Entities.Features.Function;
+using Wright.Entities.Features.Relation;
 
 namespace Wright.AstTranslation.Translators;
 
@@ -14,12 +15,40 @@ public class CTranslator : IAstTranslator
         return tree.Type switch
         {
             "function_definition" => TranslateFunction(tree),
+            "call_expression" => TranslateCall(tree),
             _ => throw new NotSupportedException(
                 $"C node type '{tree.Type}' cannot be translated to an entity."),
         };
     }
 
     private static FunctionEntity TranslateFunction(Node node)
+    {
+        FunctionEntity function = TranslateFunctionWithoutRelations(node);
+
+        foreach (string calledFunction in GetCalledFunctions(node))
+        {
+            RelationEntity relation = CreateUsesRelation(function, calledFunction);
+            function.Children.Add(relation);
+        }
+
+        return function;
+    }
+
+    private static RelationEntity TranslateCall(Node node)
+    {
+        string? calledFunction = GetCalledFunctionName(node);
+        Node? containingFunction = GetContainingFunction(node);
+
+        if (string.IsNullOrWhiteSpace(calledFunction) || containingFunction is null)
+        {
+            throw new InvalidOperationException(
+                "A C function call must have a named callee and be declared inside a function.");
+        }
+
+        return CreateUsesRelation(TranslateFunctionWithoutRelations(containingFunction), calledFunction);
+    }
+
+    private static FunctionEntity TranslateFunctionWithoutRelations(Node node)
     {
         Node? declarator = node.GetChildForField("declarator");
         string? name = declarator is null ? null : GetDeclaratorName(declarator);
@@ -31,7 +60,6 @@ public class CTranslator : IAstTranslator
         }
 
         Node? parameters = FindFunctionDeclarator(declarator)?.GetChildForField("parameters");
-
         return new FunctionEntity
         {
             Name = name,
@@ -41,6 +69,62 @@ public class CTranslator : IAstTranslator
                 .Select(TranslateParameter)
                 .ToList() ?? [],
         };
+    }
+
+    private static RelationEntity CreateUsesRelation(FunctionEntity source, string targetName)
+    {
+        FunctionEntity target = string.Equals(source.Name, targetName, StringComparison.Ordinal)
+            ? source
+            : new FunctionEntity { Name = targetName };
+
+        return new RelationEntity
+        {
+            Name = target.Name,
+            Type = RelationTypes.Uses,
+            Source = source,
+            SourceId = source.Id,
+            Target = target,
+            TargetId = target.Id,
+            Parent = source,
+            ParentId = source.Id,
+        };
+    }
+
+    private static IEnumerable<string> GetCalledFunctions(Node function) =>
+        GetDescendants(function)
+            .Where(node => node.Type == "call_expression")
+            .Select(GetCalledFunctionName)
+            .Where(name => !string.IsNullOrWhiteSpace(name))
+            .Select(name => name!)
+            .Distinct(StringComparer.Ordinal);
+
+    private static string? GetCalledFunctionName(Node call) =>
+        call.GetChildForField("function")?.Text;
+
+    private static Node? GetContainingFunction(Node node)
+    {
+        for (Node? current = node.Parent; current is not null; current = current.Parent)
+        {
+            if (current.Type == "function_definition")
+            {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
+    private static IEnumerable<Node> GetDescendants(Node node)
+    {
+        foreach (Node child in node.NamedChildren)
+        {
+            yield return child;
+
+            foreach (Node descendant in GetDescendants(child))
+            {
+                yield return descendant;
+            }
+        }
     }
 
     private static bool IsVoidParameter(Node parameter) =>
