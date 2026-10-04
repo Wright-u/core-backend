@@ -4,6 +4,7 @@ using Wright.CodeAnatomy.interfaces;
 using Wright.CodeAnatomy.Utils;
 using Wright.AstTranslation.Interfaces;
 using Wright.Entities;
+using Wright.Entities.Features.Application;
 
 namespace Wright.CodeAnatomy.Services;
 
@@ -298,7 +299,7 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
         }
     }
 
-    public async Task<List<Entity>> ParseCodeToEntities(string source)
+    public async Task<Entity> ParseCodeToEntities(string source)
     {
         var app = Path.Combine(_root.LocalPath, source);
         List<Entity> entities = [];
@@ -338,25 +339,20 @@ public class LocalCodeAnatomyService : ICodeAnatomyService
             }
         }
 
-        return BuildEntityForest(entities);
+        return BuildApplicationTree(source, entities);
     }
 
-    private static List<Entity> BuildEntityForest(List<Entity> entities)
+    private static Entity BuildApplicationTree(string applicationName, List<Entity> entities)
     {
-        if (entities.Count == 0)
+        var application = new ApplicationEntity { Name = applicationName };
+        entities.Add(application);
+
+        foreach (Entity entity in entities.Where(entity => entity != application && entity.ParentId is null))
         {
-            return [];
+            entity.ParentId = application.Id;
         }
 
-        List<Entity> roots = entities.Where(entity => entity.ParentId is null).ToList();
-        if (roots.Count == 0)
-        {
-            throw new InvalidOperationException("The translated entities do not contain a root entity.");
-        }
-
-        // Build processes the entire collection, including every root, in one pass.
-        _ = EntityTreeBuilder.Build(entities, roots[0].Id);
-        return roots;
+        return EntityTreeBuilder.Build(entities, application.Id);
     }
 
     private static void AddEntityTree(Entity entity, List<Entity> entities)

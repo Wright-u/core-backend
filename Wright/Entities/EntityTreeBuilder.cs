@@ -9,10 +9,14 @@ public static class EntityTreeBuilder
         var all = entities.ToList();
         var byId = all.ToDictionary(x => x.Id);
 
-        foreach (var entity in all)
+        foreach (Entity entity in all)
         {
             entity.Children.Clear();
+            entity.Parent = null;
+        }
 
+        foreach (Entity entity in all)
+        {
             if (entity.ParentId is not Guid parentId)
                 continue;
 

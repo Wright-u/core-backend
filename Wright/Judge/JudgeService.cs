@@ -7,23 +7,23 @@ namespace Wright.Judge;
 
 public class JudgeService : IJudgeService
 {
-    // private readonly IDesignParser _designParser;
+    private readonly EntityRequestParser _requestParser;
     private readonly ICodeAnatomyService _codeAnatomyService;
 
     public JudgeService(
-        ICodeAnatomyService codeTranslator
-        // IDesignParser designParser, 
+        ICodeAnatomyService codeTranslator,
+        EntityRequestParser requestParser
         )
     {
         _codeAnatomyService = codeTranslator;
-        // _designParser = designParser;
+        _requestParser = requestParser;
     }
 
     public async Task<JudgeResponse> Judge(JudgeRequest request)
     {
 
-        Entity? expected = null; // Entity expected = _designParser.Parse(request);
-        Entity actual = (await _codeAnatomyService.ParseCodeToEntities(request.AppId)).First();
+        Entity expected = _requestParser.Parse(request);
+        Entity actual = await _codeAnatomyService.ParseCodeToEntities(request.AppId);
 
         if (expected is null || actual is null)
         {

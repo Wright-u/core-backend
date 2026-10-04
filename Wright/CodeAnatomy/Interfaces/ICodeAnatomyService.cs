@@ -9,5 +9,5 @@ public interface ICodeAnatomyService
     public Task<ImplementationResponse> GetImplementation(string source);
     public Task<SymbolReferencesResponse> GetSymbolReferences(string source);
 
-    public Task<List<Entity>> ParseCodeToEntities(string source);
+    public Task<Entity> ParseCodeToEntities(string source);
 }

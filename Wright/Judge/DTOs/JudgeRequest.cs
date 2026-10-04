@@ -14,7 +14,7 @@ public class DesignSchemaDto
 
 public class ElementDto
 {
-    public required string Id { get; set; }
+    public string Id { get; set; } = string.Empty;
     public required string Name { get; set; }
     public required string Type { get; set; }          // function or variable
     public List<PropertyDto> Properties { get; set; } = [];  // function parameters / struct fields

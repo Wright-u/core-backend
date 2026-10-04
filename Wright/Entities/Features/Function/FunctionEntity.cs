@@ -19,7 +19,7 @@ public class FunctionEntity : Entity
                 mismatches.Add($"Parameter {i} name mismatch");
 
             if (parameter.Type != otherParameter.Type)
-                mismatches.Add($"Parameter {i} type mismatch");
+                mismatches.Add($"Parameter {Parameters[i].Name} type mismatch");
         }
 
         return new EntityDiff { IsDifferent = mismatches.Count > 0, Mismatches = mismatches };

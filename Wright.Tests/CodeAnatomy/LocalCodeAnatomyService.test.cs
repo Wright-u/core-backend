@@ -3,6 +3,7 @@ using Wright.CodeAnatomy.Grammer;
 using Wright.CodeAnatomy.Services;
 using Wright.CodeAnatomy.Utils;
 using Wright.AstTranslation.Services;
+using Wright.Entities.Features.Application;
 using Wright.Entities.Features.Function;
 using Wright.Entities.Features.Relation;
 
@@ -34,6 +35,18 @@ public class LocalCodeAnatomyServiceTest
 
         Assert.NotNull(appSkeleton);
         Assert.Empty(appSkeleton.Files);
+    }
+
+    [Fact]
+    public async Task ParseCodeToEntitiesWhenApplicationIsEmptyThenReturnsAnEmptyApplicationRoot()
+    {
+        CreateApplication("empty-entity-app");
+
+        ApplicationEntity application = Assert.IsType<ApplicationEntity>(
+            await CreateService().ParseCodeToEntities("empty-entity-app"));
+
+        Assert.Equal("empty-entity-app", application.Name);
+        Assert.Empty(application.Children);
     }
 
     [Fact]
@@ -282,7 +295,7 @@ public class LocalCodeAnatomyServiceTest
     }
 
     [Fact]
-    public async Task ParseCodeToEntitiesWhenCFunctionsCallEachOtherThenReturnsNestedUsesRelation()
+    public async Task ParseCodeToEntitiesWhenCFunctionsCallEachOtherThenReturnsApplicationTreeWithNestedUsesRelation()
     {
         string appDirectory = CreateApplication("c-entities-app");
         CreateFile(appDirectory, "main.c", """
@@ -297,15 +310,17 @@ public class LocalCodeAnatomyServiceTest
             """);
         CreateFile(appDirectory, "README.md", "This file is not source code.");
 
-        List<Wright.Entities.Entity> entities = await CreateService().ParseCodeToEntities("c-entities-app");
+        ApplicationEntity application = Assert.IsType<ApplicationEntity>(
+            await CreateService().ParseCodeToEntities("c-entities-app"));
 
-        Assert.Equal(["callee", "caller"], entities.OfType<FunctionEntity>().Select(function => function.Name).Order());
-        FunctionEntity caller = Assert.Single(entities.OfType<FunctionEntity>(), function => function.Name == "caller");
+        Assert.Equal("c-entities-app", application.Name);
+        Assert.Equal(["callee", "caller"], application.Children.OfType<FunctionEntity>().Select(function => function.Name).Order());
+        FunctionEntity caller = Assert.Single(application.Children.OfType<FunctionEntity>(), function => function.Name == "caller");
         RelationEntity relation = Assert.IsType<RelationEntity>(Assert.Single(caller.Children));
         Assert.Equal(RelationTypes.Uses, relation.Type);
         Assert.Equal("caller", relation.Source?.Name);
         Assert.Equal("callee", relation.Target?.Name);
-        Assert.Contains(entities.OfType<FunctionEntity>(), function => function.Id == relation.TargetId);
+        Assert.Contains(application.Children.OfType<FunctionEntity>(), function => function.Id == relation.TargetId);
         Assert.Same(caller, relation.Parent);
     }
 
