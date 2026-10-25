@@ -5,5 +5,5 @@ namespace Wright.AstTranslation.Interfaces;
 
 public interface IAstTranslator
 {
-    Entity Translate(Node tree);
+    Entity? Translate(Node tree);
 }

@@ -1,6 +1,6 @@
 namespace Wright.AstTranslation.Interfaces;
 
-public interface IAstTranslatorFactory
+public interface IAstTranslatorFactory<T>
 {
-    IAstTranslator Create(string language);
+    IAstTranslator Create(T param);
 }
